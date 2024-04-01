@@ -1,18 +1,17 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String
-from fastapi import FastAPI
-from sqlalchemy.orm import session, sessionmaker
+from sqlalchemy.orm import sessionmaker
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./database.db"
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
-)
+# Создание движка базы данных
+DATABASE_URL = "sqlite:///./database.db"
+engine = create_engine(DATABASE_URL)
+
+# Создание базового класса для объявления моделей
 Base = declarative_base()
 
+# Определение модели User
 class User(Base):
-    __tablename__ = "users"
+    __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String)
@@ -21,12 +20,16 @@ class User(Base):
     age = Column(Integer)
     email = Column(String)
 
-
+# Создание таблицы в базе данных
 Base.metadata.create_all(bind=engine)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False)
+
+# Создание сессии с привязкой к движку
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 db = SessionLocal()
 
-
-
-app = FastAPI()
+# Создание и добавление объекта в базу данных
+Person3 = User(name="Person_3", sex="M", nationality="Russian", age=22, email="<EMAIL>")
+db.add(Person3)
+db.commit()
+print("Количество записей в таблице users:", db.query(User).count())
 
