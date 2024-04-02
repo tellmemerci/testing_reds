@@ -136,7 +136,3 @@ def update_user(user_id: int, user_data: UserUpdate, db: Session = Depends(get_d
 
 
 
-
-
-
-
