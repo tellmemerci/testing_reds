@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-
+from fastapi import FastAPI, HTTPException
 # Создание движка базы данных
 DATABASE_URL = "sqlite:///./database.db"
 engine = create_engine(DATABASE_URL)
@@ -28,8 +28,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 db = SessionLocal()
 
 # Создание и добавление объекта в базу данных
-Person3 = User(name="Person_3", sex="M", nationality="Russian", age=22, email="<EMAIL>")
-db.add(Person3)
-db.commit()
-print("Количество записей в таблице users:", db.query(User).count())
-
+#Person5 = User(name="Урамов Тимофей Леонидович", sex="M", nationality="Russian", age=22, email="<EMAIL>")
+#db.add(Person5)
+#db.commit()
+#print("Количество записей в таблице users:", db.query(User).count())
